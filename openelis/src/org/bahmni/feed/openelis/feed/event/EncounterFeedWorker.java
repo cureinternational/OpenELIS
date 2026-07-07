@@ -140,7 +140,7 @@ public class EncounterFeedWorker extends OpenElisEventWorker {
     }
 
     public void process(OpenMRSEncounter openMRSEncounter) {
-        TypeOfSampleUtil.clearTestCache();
+        TypeOfSampleUtil.clearEntityCaches();
         logInfo(openMRSEncounter);
         String sysUserId = auditingService.getSysUserId();
         EncounterFeedProcessor feedProcessor;

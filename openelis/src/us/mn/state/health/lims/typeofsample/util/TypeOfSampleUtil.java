@@ -173,4 +173,16 @@ public class TypeOfSampleUtil {
             labOrderTypeToTestMap.clear();
         }
     }
+
+    /**
+     * Clears only caches that hold Hibernate entity objects, preventing stale entity references
+     * across Hibernate session boundaries between event processing cycles.
+     * String-only caches (typeOfSampleIdToNameMap, labOrderTypeToTestMap) are not cleared.
+     */
+    public static void clearEntityCaches() {
+        synchronized (LOCK_OBJECT) {
+            testIdToTypeOfSampleMap.clear();
+            sampleIdTestMap.clear();
+        }
+    }
 }
