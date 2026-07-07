@@ -37,6 +37,7 @@ import us.mn.state.health.lims.hibernate.HibernateUtil;
 import us.mn.state.health.lims.sampleitem.dao.SampleItemDAO;
 import us.mn.state.health.lims.sampleitem.valueholder.SampleItem;
 import us.mn.state.health.lims.sourceofsample.valueholder.SourceOfSample;
+import us.mn.state.health.lims.statusofsample.util.StatusOfSampleUtil;
 import us.mn.state.health.lims.typeofsample.valueholder.TypeOfSample;
 
 /**
@@ -343,12 +344,17 @@ public class SampleItemDAOImpl extends BaseDAOImpl implements SampleItemDAO {
 		if (typeOfSampleIds.size() == 0)
 			return false;
 		try {
-			String sql = "from SampleItem sampleItem where sampleItem.sample.id = :sampleId and sampleItem.typeOfSample in ( :typeOfSampleIds )";
+			String enteredStatusId = StatusOfSampleUtil.getStatusID(StatusOfSampleUtil.SampleStatus.Entered);
+			if ("-1".equals(enteredStatusId))
+				return false;
+
+			String sql = "from SampleItem sampleItem where sampleItem.sample.id = :sampleId and sampleItem.typeOfSample in ( :typeOfSampleIds ) and sampleItem.statusId = :enteredStatusId";
 			Query query = HibernateUtil.getSession().createQuery(sql);
 			query.setInteger("sampleId", Integer.parseInt(sampleId));
 			query.setParameterList("typeOfSampleIds", typeOfSampleIds);
+			query.setInteger("enteredStatusId", Integer.parseInt(enteredStatusId));
 			@SuppressWarnings("unchecked")
-			List<Boolean> list = query.list();
+			List<SampleItem> list = query.list();
 			closeSession();
 			return list.size() == 1;
 

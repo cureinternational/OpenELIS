@@ -56,6 +56,7 @@ import us.mn.state.health.lims.typeofsample.dao.TypeOfSampleDAO;
 import us.mn.state.health.lims.typeofsample.dao.TypeOfSampleTestDAO;
 import us.mn.state.health.lims.typeofsample.daoimpl.TypeOfSampleDAOImpl;
 import us.mn.state.health.lims.typeofsample.daoimpl.TypeOfSampleTestDAOImpl;
+import us.mn.state.health.lims.typeofsample.util.TypeOfSampleUtil;
 
 import java.net.URI;
 
@@ -139,6 +140,7 @@ public class EncounterFeedWorker extends OpenElisEventWorker {
     }
 
     public void process(OpenMRSEncounter openMRSEncounter) {
+        TypeOfSampleUtil.clearTestCache();
         logInfo(openMRSEncounter);
         String sysUserId = auditingService.getSysUserId();
         EncounterFeedProcessor feedProcessor;
