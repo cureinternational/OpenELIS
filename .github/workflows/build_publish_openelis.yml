@@ -56,5 +56,5 @@ jobs:
           file: package/docker/openelis/Dockerfile
           push: true
           tags: |
-            us-east1-docker.pkg.dev/cure-emr-gcp/openelis/openelis:${{env.ARTIFACT_VERSION}}
-            us-east1-docker.pkg.dev/cure-emr-gcp/openelis/openelis:latest    
+            us-east1-docker.pkg.dev/cure-emr-gcp/bahmni/openelis:${{env.ARTIFACT_VERSION}}
+            us-east1-docker.pkg.dev/cure-emr-gcp/bahmni/openelis:latest    
