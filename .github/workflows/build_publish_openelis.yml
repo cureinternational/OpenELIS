@@ -5,12 +5,6 @@ on:
       - CURE-Product-Master
       - 'release-*'
   workflow_dispatch:
-  workflow_run:
-    workflows: [Pull Translations from Transifex]
-    types: [completed]
-    branches:
-      - CURE-Product-Master
-      - 'release-*'
 
 jobs:
   docker-build-publish:
@@ -63,13 +57,4 @@ jobs:
           push: true
           tags: |
             us-east1-docker.pkg.dev/cure-emr-gcp/openelis/openelis:${{env.ARTIFACT_VERSION}}
-            us-east1-docker.pkg.dev/cure-emr-gcp/openelis/openelis:latest
-      - name: Push Translations to Transifex
-        if: ${{ secrets.TX_TOKEN != '' }}
-        run: |
-          curl -o transifex.sh https://raw.githubusercontent.com/Bahmni/bahmni-infra-utils/main/transifex.sh
-          chmod +x transifex.sh
-          ./transifex.sh push
-          rm transifex.sh
-        env:
-          TX_TOKEN: ${{ secrets.TX_TOKEN }}    
+            us-east1-docker.pkg.dev/cure-emr-gcp/openelis/openelis:latest    
