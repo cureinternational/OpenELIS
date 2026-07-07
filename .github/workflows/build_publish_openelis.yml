@@ -65,7 +65,7 @@ jobs:
             us-east1-docker.pkg.dev/cure-emr-gcp/openelis/openelis:${{env.ARTIFACT_VERSION}}
             us-east1-docker.pkg.dev/cure-emr-gcp/openelis/openelis:latest
       - name: Push Translations to Transifex
-        if: secrets.TX_TOKEN != ''
+        if: ${{ secrets.TX_TOKEN != '' }}
         run: |
           curl -o transifex.sh https://raw.githubusercontent.com/Bahmni/bahmni-infra-utils/main/transifex.sh
           chmod +x transifex.sh
