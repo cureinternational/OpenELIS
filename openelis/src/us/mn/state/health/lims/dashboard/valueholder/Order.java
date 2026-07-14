@@ -47,6 +47,7 @@ public class Order {
     private String sectionNames;
     private String sampleType;
     private String priority;
+    private String visitType;
 
     public Order() {
     }
@@ -251,14 +252,15 @@ public class Order {
                 Objects.equals(comments, order.comments) &&
                 Objects.equals(sectionNames, order.sectionNames) &&
                 Objects.equals(sampleType, order.sampleType) &&
-                Objects.equals(priority, order.priority);
+                Objects.equals(priority, order.priority) &&
+                Objects.equals(visitType, order.visitType);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(accessionNumber, uuid, orderId, stNumber, firstName, middleName, lastName, source,
                 pendingTestCount, pendingValidationCount, referredTestCount, totalTestCount, collectionDate, isPrinted, isCompleted,
-                enteredDate, comments, sectionNames, sampleType, priority);
+                enteredDate, comments, sectionNames, sampleType, priority, visitType);
     }
 
     public String getSectionNames() {
@@ -283,5 +285,13 @@ public class Order {
 
     public void setPriority(String priority) {
         this.priority = priority;
+    }
+
+    public String getVisitType() {
+        return visitType;
+    }
+
+    public void setVisitType(String visitType) {
+        this.visitType = visitType;
     }
 }

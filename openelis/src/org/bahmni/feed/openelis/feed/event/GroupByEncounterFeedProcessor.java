@@ -88,6 +88,7 @@ public class GroupByEncounterFeedProcessor extends EncounterFeedProcessor{
 
         // Mujir - create an external reference to order id in openelis.. this can go in Sample against the accession number
         sample.setUUID(openMRSEncounter.getEncounterUuid());
+        sample.setVisitType(openMRSEncounter.getVisitType());
 
         return sample;
     }

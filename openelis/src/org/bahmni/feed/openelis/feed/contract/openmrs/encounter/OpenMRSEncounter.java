@@ -28,6 +28,7 @@ public class OpenMRSEncounter {
     private String patientUuid;
     private String locationUuid;
     private String locationName;
+    private String visitType;
     private List<OpenMRSOrder> orders = new ArrayList<>();
     private List<OpenMRSProvider> providers = new ArrayList<>();
 
@@ -107,5 +108,13 @@ public class OpenMRSEncounter {
 
     public void setLocationName(String locationName) {
         this.locationName = locationName;
+    }
+
+    public String getVisitType() {
+        return visitType;
+    }
+
+    public void setVisitType(String visitType) {
+        this.visitType = visitType;
     }
 }
