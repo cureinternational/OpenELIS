@@ -1857,5 +1857,17 @@
         </update>
     </changeSet>
 
+    <changeSet id="add-visit-type-to-sample" context="bahmni" author="bahmni">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists schemaName="clinlims" tableName="sample" columnName="visit_type"/>
+            </not>
+        </preConditions>
+        <comment>Persist IPD/OPD visit type on the sample so it can be shown as a dashboard grid column</comment>
+        <addColumn schemaName="clinlims" tableName="sample">
+            <column name="visit_type" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>
 

@@ -50,6 +50,7 @@ public class OrderListDAOHelper {
                 "person.last_name AS last_name, \n" +
                 "patient_identity.identity_data AS st_number, \n" +
                 "sample_source.name AS sample_source, \n" +
+                "sample.visit_type AS visit_type, \n" +
                 "SUM(CASE WHEN  analysis.status_id IN (" + pendingAnalysisStatus + ") THEN 1 ELSE 0 END) as pending_tests_count,\n" +
                 "SUM(CASE WHEN  analysis.status_id IN (" + pendingValidationAnalysisStatus + ") THEN 1 ELSE 0 END) as pending_validation_count,\n" +
                 "SUM(CASE WHEN  analysis.status_id IN (" + referredAnalysisStatus + ") THEN 1 ELSE 0 END) as referred_tests_count,\n" +
@@ -69,7 +70,7 @@ public class OrderListDAOHelper {
                 "INNER JOIN test_section ON test.test_section_id = test_section.id \n" +
                 "LEFT OUTER JOIN document_track as document_track ON sample.id = document_track.row_id AND document_track.name = 'patientHaitiClinical' and document_track.parent_id is null\n" +
                 "WHERE " + condition + "\n" +
-                "GROUP BY sample.accession_number, sample.uuid,sample.id, sample.collection_date, person.first_name, person.middle_name, person.last_name, sample_source.name, patient_identity.identity_data, document_track.report_generation_time\n" +
+                "GROUP BY sample.accession_number, sample.uuid,sample.id, sample.collection_date, person.first_name, person.middle_name, person.last_name, sample_source.name, sample.visit_type, patient_identity.identity_data, document_track.report_generation_time\n" +
                 "ORDER BY " + OrderBy + " DESC\n" +
                 "LIMIT 1000;";
     }
@@ -88,6 +89,7 @@ public class OrderListDAOHelper {
                 "person.last_name AS last_name, \n" +
                 "patient_identity.identity_data AS st_number, \n" +
                 "sample_source.name AS sample_source, \n" +
+                "sample.visit_type AS visit_type, \n" +
                 "SUM(CASE WHEN  analysis.status_id IN (" + pendingAnalysisStatus + ") THEN 1 ELSE 0 END) as pending_tests_count,\n" +
                 "SUM(CASE WHEN  analysis.status_id IN (" + pendingValidationAnalysisStatus + ") THEN 1 ELSE 0 END) as pending_validation_count,\n" +
                 "SUM(CASE WHEN  analysis.status_id IN (" + referredAnalysisStatus + ") THEN 1 ELSE 0 END) as referred_tests_count,\n" +
@@ -117,7 +119,7 @@ public class OrderListDAOHelper {
                 "INNER JOIN test_section ON test.test_section_id = test_section.id \n" +
                 "LEFT OUTER JOIN document_track as document_track ON sample.id = document_track.row_id AND document_track.name = 'patientHaitiClinical' and document_track.parent_id is null \n" +
                 "WHERE " + condition + "\n" +
-                "GROUP BY sample.accession_number, sample.uuid,sample.id, sample.collection_date, sample.lastupdated, person.first_name, person.middle_name, person.last_name, sample_source.name, patient_identity.identity_data, document_track.report_generation_time \n" +
+                "GROUP BY sample.accession_number, sample.uuid,sample.id, sample.collection_date, sample.lastupdated, person.first_name, person.middle_name, person.last_name, sample_source.name, sample.visit_type, patient_identity.identity_data, document_track.report_generation_time \n" +
                 "ORDER BY " + OrderBy + " DESC\n" +
                 "LIMIT 1000;";
     }
@@ -137,6 +139,7 @@ public class OrderListDAOHelper {
                 "patient_identity.identity_data AS st_number, \n" +
                 "sample_source.name AS sample_source, \n" +
                 "sample.priority AS priority,\n" +
+                "sample.visit_type AS visit_type, \n" +
                 "type_of_sample.description AS sample_type, \n" +
                 "SUM(CASE WHEN  analysis.status_id IN (" + pendingAnalysisStatus + ") THEN 1 ELSE 0 END) as pending_tests_count,\n" +
                 "SUM(CASE WHEN  analysis.status_id IN (" + pendingValidationAnalysisStatus + ") THEN 1 ELSE 0 END) as pending_validation_count,\n" +
@@ -178,6 +181,7 @@ public class OrderListDAOHelper {
                 "patient_identity.identity_data AS st_number, \n" +
                 "sample_source.name AS sample_source, \n" +
                 "sample.priority AS priority,\n" +
+                "sample.visit_type AS visit_type, \n" +
                 "type_of_sample.description AS sample_type, \n" +
                 "SUM(CASE WHEN  analysis.status_id IN (" + pendingAnalysisStatus + ") THEN 1 ELSE 0 END) as pending_tests_count,\n" +
                 "SUM(CASE WHEN  analysis.status_id IN (" + pendingValidationAnalysisStatus + ") THEN 1 ELSE 0 END) as pending_validation_count,\n" +
@@ -233,7 +237,7 @@ public class OrderListDAOHelper {
 
     private Order getOrderWithPriority(ResultSet accessionResultSet, String comments, String sectionNames,
                                        String priority, boolean completed) throws SQLException {
-        return new Order(accessionResultSet.getString("accession_number"),
+        Order order = new Order(accessionResultSet.getString("accession_number"),
                 accessionResultSet.getString("uuid"),
                 accessionResultSet.getString("id"),
                 accessionResultSet.getString("st_number"),
@@ -254,11 +258,13 @@ public class OrderListDAOHelper {
                 accessionResultSet.getString("sample_type"),
                 priority
         );
+        order.setVisitType(accessionResultSet.getString("visit_type"));
+        return order;
     }
 
     private Order getOrderWithoutPriority(ResultSet accessionResultSet, String comments,
                                           String sectionNames, boolean completed) throws SQLException {
-        return new Order(accessionResultSet.getString("accession_number"),
+        Order order = new Order(accessionResultSet.getString("accession_number"),
                 accessionResultSet.getString("uuid"),
                 accessionResultSet.getString("id"),
                 accessionResultSet.getString("st_number"),
@@ -277,5 +283,7 @@ public class OrderListDAOHelper {
                 comments,
                 sectionNames
         );
+        order.setVisitType(accessionResultSet.getString("visit_type"));
+        return order;
     }
 }

@@ -111,6 +111,7 @@ basePath = path + "/";
         data-sectionNames = '<bean:message key="dashboard.sample.column.sectionNames"/>'
         data-sampleType = '<bean:message key="dashboard.sample.column.sampleType"/>'
         data-priority = '<bean:message key="dashboard.sample.column.priority"/>'
+        data-visitType = '<bean:message key="dashboard.sample.column.visitType"/>'
         data-total = '<bean:message key="dashboard.sample.column.total"/>'
         data-notes = '<bean:message key="dashboard.sample.column.notes"/>'
         data-action = '<bean:message key="dashboard.sample.column.action"/>'
@@ -186,8 +187,6 @@ basePath = path + "/";
     <div id="patientDetails" class="hide details">
         <div class='details-more-info'><span class='details-key'>Patient ID : </span><span class='details-value' id="patientId"></span></div>
         <div class='details-more-info'><span class='details-key'>Name : </span><span class='details-value' id="name"></span></div>
-        <div class='details-more-info'><span class='details-key'>Father/Husband's Name : </span><span class='details-value' id="primaryRelative"></span></div>
-        <div class='details-more-info'><span class='details-key'>Village : </span><span class='details-value' id="village"></span></div>
         <div class='details-more-info'><span class='details-key'>Gender : </span><span  class='details-value' id="gender"></span></div>
         <div class='details-more-info'><span class='details-key'>Age : </span><span class='details-value' id="age"></span></div>
     </div>

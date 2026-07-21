@@ -22,27 +22,38 @@ OpenElis.Utils = {
         var dayDOB = splitDOB[dayIndex];
         var yearDOB = splitDOB[yearIndex];
 
+        if (!monthDOB || !dayDOB || !yearDOB ||
+            !monthDOB.match(/^\d+$/) || !dayDOB.match(/^\d+$/) || !yearDOB.match(/^\d+$/)) {
+            return DOB;
+        }
+
+        var dob = new Date(yearDOB, monthDOB - 1, dayDOB);
         var today = new Date();
 
-        var adjustment = 0;
+        var isRealCalendarDate = dob.getFullYear() == yearDOB &&
+            dob.getMonth() == monthDOB - 1 &&
+            dob.getDate() == dayDOB;
 
-        if (!monthDOB.match(/^\d+$/)) {
-            monthDOB = "01";
+        if (isNaN(dob.getTime()) || !isRealCalendarDate || dob > today) {
+            return DOB;
         }
 
-        if (!dayDOB.match(/^\d+$/)) {
-            dayDOB = "01";
+        var years = today.getFullYear() - dob.getFullYear();
+        var months = today.getMonth() - dob.getMonth();
+        var days = today.getDate() - dob.getDate();
+
+        if (days < 0) {
+            months--;
+            var daysInPreviousMonth = new Date(today.getFullYear(), today.getMonth(), 0).getDate();
+            days += daysInPreviousMonth;
         }
 
-        //months start at 0, January is month 0
-        var monthToday = today.getMonth() + 1;
-
-        if (monthToday < monthDOB ||
-            (monthToday == monthDOB && today.getDate() < dayDOB  )) {
-            adjustment = -1;
+        if (months < 0) {
+            years--;
+            months += 12;
         }
 
-        return today.getFullYear() - yearDOB + adjustment;
+        return years + " years " + months + " months " + days + " days";
     },
 
     getXMLValue: function(response, key){
